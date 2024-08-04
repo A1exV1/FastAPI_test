@@ -1,6 +1,6 @@
 import datetime as dt
 
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, model_validator, AwareDatetime
 from typing_extensions import Self
 
 
@@ -8,7 +8,7 @@ class CreateOrder(BaseModel):
     flat: int
     dog_name: str
     dog_breed: str
-    walk_at: dt.datetime
+    walk_at: AwareDatetime
 
     model_config = {
         'json_schema_extra': {
