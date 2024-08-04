@@ -1,5 +1,4 @@
 import datetime as dt
-from pytz import timezone
 
 from pydantic import BaseModel, model_validator
 from typing_extensions import Self
@@ -18,7 +17,7 @@ class CreateOrder(BaseModel):
                     'flat': 42,
                     'dog_name': 'Sharik',
                     'dog_breed': 'Stafford',
-                    'walk_at': dt.datetime(2020, 1, 1, 12, 0, 0),
+                    'walk_at': dt.datetime(2020, 1, 1, 12, 0, 0, tzinfo=dt.UTC),
                 }
             ]
         }
@@ -26,7 +25,7 @@ class CreateOrder(BaseModel):
 
     @model_validator(mode='after')
     def validate_time(self) -> Self:
-        if self.walk_at < dt.datetime.now():
+        if self.walk_at < dt.datetime.now(tz=dt.UTC):
             raise ValueError('Date and time must be in the future')
 
         if not 7 <= self.walk_at.hour <= 23:
